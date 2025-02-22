@@ -35,12 +35,20 @@ const nextConfig = {
     // Enable SWC minification for smaller builds
     swcMinify: true,
   
+    // Reduce Webpack bundle size
+    experimental: {
+      outputStandalone: true, // Reduce unnecessary files in build
+    },
+  
     // Optimize Webpack to split large bundles
-    webpack: (config) => {
-      config.optimization.splitChunks = {
-        chunks: "all",
-        maxSize: 2000000, // Max chunk size ~2MB to stay under 25MB limit
-      };
+    webpack: (config, { isServer }) => {
+      if (!isServer) {
+        config.optimization.splitChunks = {
+          chunks: "all",
+          maxSize: 2000000, // Set max chunk size to ~2MB to avoid 25MB limit
+        };
+      }
+  
       return config;
     },
   };
