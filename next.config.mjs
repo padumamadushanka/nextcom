@@ -30,28 +30,25 @@ const nextConfig = {
       WHEELPARTS_ID: process.env.WHEELPARTS_ID,
       VANPARTS_ID: process.env.VANPARTS_ID,
     },
-    distDir: ".vercel/output/static",
+    distDir: ".vercel/output/static", // Set the build output directory
   
-    swcMinify: true, // Use SWC for faster and smaller builds
+    // Enable SWC minification for smaller builds
+    swcMinify: true,
   
+    // Reduce Webpack bundle size
     experimental: {
-      outputStandalone: true,
+      outputStandalone: true, // Reduce unnecessary files in build
     },
   
+    // Optimize Webpack to split large bundles
     webpack: (config, { isServer }) => {
       if (!isServer) {
         config.optimization.splitChunks = {
           chunks: "all",
-          maxSize: 2000000, // Split into chunks < 2MB
-        };
-        config.resolve.alias = {
-          ...config.resolve.alias,
-          react: require.resolve("react"),
-          "react-dom": require.resolve("react-dom"),
+          maxSize: 2000000, // Set max chunk size to ~2MB to avoid 25MB limit
         };
       }
   
-      config.optimization.minimize = true; // Minimize everything
       return config;
     },
   };
