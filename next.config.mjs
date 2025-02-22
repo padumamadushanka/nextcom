@@ -30,6 +30,7 @@ const nextConfig = {
       WHEELPARTS_ID: process.env.WHEELPARTS_ID,
       VANPARTS_ID: process.env.VANPARTS_ID,
     },
+    distDir: '.vercel/output/static', // Set the build output directory
   };
   
   export default nextConfig;
