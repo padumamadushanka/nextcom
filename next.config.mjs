@@ -30,7 +30,19 @@ const nextConfig = {
       WHEELPARTS_ID: process.env.WHEELPARTS_ID,
       VANPARTS_ID: process.env.VANPARTS_ID,
     },
-    distDir: '.vercel/output/static', // Set the build output directory
+    distDir: ".vercel/output/static", // Set the build output directory
+  
+    // Enable SWC minification for smaller builds
+    swcMinify: true,
+  
+    // Optimize Webpack to split large bundles
+    webpack: (config) => {
+      config.optimization.splitChunks = {
+        chunks: "all",
+        maxSize: 2000000, // Max chunk size ~2MB to stay under 25MB limit
+      };
+      return config;
+    },
   };
   
   export default nextConfig;
